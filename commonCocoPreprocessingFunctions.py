@@ -9,6 +9,12 @@ class CocoImage:
         self.annotations = list()
 
 
+class CocoCategory:
+    def __init__(self, cocoId, categoryName, yoloId):
+        self.cocoId = cocoId
+        self.categoryName = categoryName
+        self.yoloId = yoloId
+
 def getInstancesAsJSON(pathToAnnotationsDir, fileName):
     '''
         ### getInstancesAsJSON
@@ -72,15 +78,17 @@ def associateImageIdWithItsPropsAndAnnots(instancesJSON):
     return imageIdToPropsAndAnnots
 
 
-def associateCategoryIdWithItsName(instancesJSON):
+def associateCategoryIdWithItsNameAndYoloId(instancesJSON):
     '''
-        ### associateCategoryIdWithItsName
+        ### associateCategoryIdWithItsNameAndYoloId
         creates a dictionary which contains CategoryId (key) and its name (value)
 
         :param instancesJSON: file with annotations parsed as JSON (e.g. result of getAnnotationsAsJSON)
-        :return: dictionary: Key=CategoryId    Value=category name
+        :return: dictionary: Key=CategoryId    Value= CocoCategory object containing cocoId, categoryName and yoloId
     '''
     categoryIdToName = {}
-    for category in instancesJSON["categories"]:
-        categoryIdToName[category["id"]] = category["name"]
+    for currentYoloId, category in enumerate(instancesJSON["categories"]):
+        cocoId = category["id"]
+        categoryName = category["name"]
+        categoryIdToName[cocoId] = CocoCategory(cocoId, categoryName, currentYoloId)
     return categoryIdToName
