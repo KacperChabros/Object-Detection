@@ -66,7 +66,7 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
 
         #the line below will produce a dictionary with Key=ImageId and Value=how many true bounding boxes it has
         ammountOfBboxes = Counter([gt[0] for gt in groundTruthsForClass])
-        
+
         # this will create a tensor full of zeros instead of just a number of bounding boxes
         # we do this to keep track of the true bboxes that we have covered so far (only the first pred bbox
         # that covers the gt bbox is TP, others are FP) 0 = not covered, 1 = covered
@@ -81,9 +81,15 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
         TPs = torch.zeros(len(detectionsForClass))
         FPs = torch.zeros(len(detectionsForClass))
 
-        amountOfTrueBboxes = len(gtBboxes)  #number of ground truth bboxes across all images
+        amountOfTrueBboxes = len(groundTruthsForClass)
+        # amountOfTrueBboxes = len(gtBboxes)  #number of ground truth bboxes across all images
 
-
+        if(amountOfTrueBboxes == 0):
+            if(len(detectionsForClass) == 0):
+                averagePrecissionForClass.append(torch.tensor(1))
+            else:
+                averagePrecissionForClass.append(torch.tensor(0))
+            continue
         for detectionId, detection in enumerate(detectionsForClass): #here we've got particular bbox for particular class
             # we take only those gt bboxes which belong to the same img as considered detection bbox
             gtsForSameImg = [
@@ -119,7 +125,8 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
         TPsCumsum = torch.cumsum(TPs, dim=0)
         FPsCumsum = torch.cumsum(FPs, dim=0)
         
-        recalls = TPsCumsum / amountOfTrueBboxes
+
+        recalls = (TPsCumsum / amountOfTrueBboxes)
         precisions = TPsCumsum / (TPsCumsum + FPsCumsum)
 
         #we add point (0,1) in order to provide smooth start to the chart
@@ -127,6 +134,6 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
         precisions = torch.cat((torch.tensor([1]), precisions))
 
         # calculate area under the precision-recall curve
-        averagePrecissionForClass.append(torch.trapz(precisions, recalls))
-
-    return sum(averagePrecissionForClass) / len(averagePrecissionForClass)
+        averagePrecissionForClass.append((torch.trapz(precisions, recalls)).clamp(0))
+    return averagePrecissionForClass
+    # return float(sum(averagePrecissionForClass) / len(averagePrecissionForClass))

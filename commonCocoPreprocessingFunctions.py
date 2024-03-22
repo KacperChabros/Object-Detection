@@ -3,6 +3,7 @@ import shutil
 import os
 from collections import defaultdict
 from collections import OrderedDict
+import commonPaths
 
 class CocoImage:
     def __init__(self, id, fileName, height, width):
@@ -178,3 +179,33 @@ def createAnnotJSONForYolo(categoryIdToNameAndYoloId, imageIdToPropsAndAnnots, p
 
     with open(pathToJSONoutfile, "w") as outfile:
         json.dump(imageIdToListOfAnnotsSerializable, outfile)
+
+def providePaths(forTrain=False):
+    '''
+        ### providePaths
+        provides paths for data preprocessing for preprocessCocoData and calculateAvgPrecisionsForClassForModel 
+        functions. There are different paths whether one wants to preprocess train or val set.
+        :param forTrain: defines if paths should be returned for train set. (They will be for val set otherwise)
+        :return: dictionary with paths to directories applicable for test or val set
+    '''
+    paths = {}
+    if (forTrain):
+        paths["COCO_ANNOT_DIR"] = commonPaths.COCO_TRAIN_ANNOT_DIR
+        paths["ANNOT_FILENAME"] = commonPaths.TRAIN_ANNOT_FILENAME
+        paths["COCO_IMG_DIR"] = commonPaths.COCO_TRAIN_IMG_DIR
+        paths["COCO_DUMP_IMG_DIR"] = commonPaths.COCO_DUMP_TRAIN_IMG_DIR
+        paths["ANNOT_YOLO_JSON_FILE"] = commonPaths.ANNOT_YOLO_TRAIN_JSON_FILE
+        paths["YOLO_LABELS_DIR"] = commonPaths.YOLO_TRAIN_LABELS_DIR
+        paths["MAP_RESULTS_DIR"] = commonPaths.MAP_RESULTS_TRAIN_DIR
+    else:
+        paths["COCO_ANNOT_DIR"] = commonPaths.COCO_VAL_ANNOT_DIR
+        paths["ANNOT_FILENAME"] = commonPaths.VAL_ANNOT_FILENAME
+        paths["COCO_IMG_DIR"] = commonPaths.COCO_VAL_IMG_DIR
+        paths["COCO_DUMP_IMG_DIR"] = commonPaths.COCO_DUMP_VAL_IMG_DIR
+        paths["ANNOT_YOLO_JSON_FILE"] = commonPaths.ANNOT_YOLO_VAL_JSON_FILE
+        paths["YOLO_LABELS_DIR"] = commonPaths.YOLO_VAL_LABELS_DIR
+        paths["MAP_RESULTS_DIR"] = commonPaths.MAP_RESULTS_VAL_DIR
+        
+    paths["YOLO_CONFIG_FILE"] = commonPaths.YOLO_CONFIG_FILE
+    paths["YOLO_DATA_DIR_FOR_CONFIG"] = commonPaths.YOLO_DATA_DIR[:-1]
+    return paths
