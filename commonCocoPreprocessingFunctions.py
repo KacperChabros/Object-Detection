@@ -107,7 +107,7 @@ def clearDataSetFromNotAnnotatedImgs(sourceDir, destDir, imageIdToPropsAndAnnots
         road signs. The function also clears imageIdToPropsAndAnnots from not annotated images
         :param sourceDir: directory with the images (with trailing slash)
         :param destDir: directory for where to move not annotated files to (with trailing slash)
-        :param imageIdToPropsAndAnnots: dictionary: Key=ImageId    Value=CocoImage object (cleared of not annotated images)
+        :param imageIdToPropsAndAnnots: dictionary: Key=ImageId    Value=CocoImage object
         (e.g.) result of associateCategoryIdWithItsNameAndYoloId
         :param safe: whether to stop executing when the destDir contains files (set to True by default) (if False,
         some files may be overwritten)
@@ -118,7 +118,6 @@ def clearDataSetFromNotAnnotatedImgs(sourceDir, destDir, imageIdToPropsAndAnnots
         if( numberOfFilesInDir != 0 ):
             msg = f"The destination directory \"{destDir}\" is not empty! If you wish to move not annotated files anyway"
             msg += " run the function with safe=False. Some files may be overwritten!"
-            # return imageIdToPropsAndAnnots
             raise Exception(msg)
     keysToDelete = []
     for imageId, image in imageIdToPropsAndAnnots.items():
@@ -127,7 +126,6 @@ def clearDataSetFromNotAnnotatedImgs(sourceDir, destDir, imageIdToPropsAndAnnots
         if numberOfAnnotations == 0:
             shutil.move(sourceDir+fileName, destDir+fileName)
             keysToDelete.append(imageId)
-    
     
     for key in keysToDelete:
         imageIdToPropsAndAnnots.pop(key)
