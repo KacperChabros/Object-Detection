@@ -17,6 +17,9 @@ TRAIN_ANNOT_FILENAME = "instances_train2017.json"
 MAP_RESULTS_VAL_DIR = DATA_DIRECTORY + "mAPResults/val/"
 MAP_RESULTS_TRAIN_DIR = DATA_DIRECTORY + "mAPResults/train/"
 
+SPEED_RESULTS_VAL_DIR = DATA_DIRECTORY + "speedTestResults/val/"
+SPEED_RESULTS_TRAIN_DIR = DATA_DIRECTORY + "speedTestResults/train/"
+
 YOLO_DATA_DIR = DATA_DIRECTORY + "dataForYolo/"
 YOLO_TRAIN_IMG_DIR = YOLO_DATA_DIR + "images/train/"
 YOLO_VAL_IMG_DIR = YOLO_DATA_DIR + "images/val/"

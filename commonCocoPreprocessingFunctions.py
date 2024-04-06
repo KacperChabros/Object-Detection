@@ -195,6 +195,7 @@ def providePaths(forTrain=False):
         paths["ANNOT_YOLO_JSON_FILE"] = commonPaths.ANNOT_YOLO_TRAIN_JSON_FILE
         paths["YOLO_LABELS_DIR"] = commonPaths.YOLO_TRAIN_LABELS_DIR
         paths["MAP_RESULTS_DIR"] = commonPaths.MAP_RESULTS_TRAIN_DIR
+        paths["SPEED_RESULTS_DIR"] = commonPaths.SPEED_RESULTS_TRAIN_DIR
     else:
         paths["COCO_ANNOT_DIR"] = commonPaths.COCO_VAL_ANNOT_DIR
         paths["ANNOT_FILENAME"] = commonPaths.VAL_ANNOT_FILENAME
@@ -203,7 +204,22 @@ def providePaths(forTrain=False):
         paths["ANNOT_YOLO_JSON_FILE"] = commonPaths.ANNOT_YOLO_VAL_JSON_FILE
         paths["YOLO_LABELS_DIR"] = commonPaths.YOLO_VAL_LABELS_DIR
         paths["MAP_RESULTS_DIR"] = commonPaths.MAP_RESULTS_VAL_DIR
+        paths["SPEED_RESULTS_DIR"] = commonPaths.SPEED_RESULTS_VAL_DIR
         
     paths["YOLO_CONFIG_FILE"] = commonPaths.YOLO_CONFIG_FILE
     paths["YOLO_DATA_DIR_FOR_CONFIG"] = commonPaths.YOLO_DATA_DIR[:-1]
+    return paths
+
+def providePathsToImages(pathToImgDir):
+    '''
+        ### providePathsToImages
+        creates a list with paths to all the images in the given directory
+        :param pathToImgDir: path to directory containing images that will be used for calculating mAP.
+        (with trailing slash)
+        :return: a list with paths to all the images in the given directory
+    '''
+    files = os.listdir(pathToImgDir)
+    paths = []
+    for file in files:
+        paths.append(pathToImgDir + file)
     return paths
