@@ -22,6 +22,9 @@ SPEED_RESULTS_TRAIN_DIR = DATA_DIRECTORY + "speedTestResults/train/"
 
 SPEED_RESULTS_VAL_FILE = SPEED_RESULTS_VAL_DIR + "speedTestResults_val.csv"
 SPEED_RESULTS_TRAIN_FILE = SPEED_RESULTS_TRAIN_DIR + "speedTestResults_train.csv"
+
+
+
 PARAMETERS_DATA = DATA_DIRECTORY + "parametersCount/parametersCount.csv"
 
 YOLO_DATA_DIR = DATA_DIRECTORY + "dataForYolo/"
