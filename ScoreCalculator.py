@@ -82,7 +82,6 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
         FPs = torch.zeros(len(detectionsForClass))
 
         amountOfTrueBboxes = len(groundTruthsForClass)
-        # amountOfTrueBboxes = len(gtBboxes)  #number of ground truth bboxes across all images
 
         if(amountOfTrueBboxes == 0):
             if(len(detectionsForClass) == 0):
@@ -95,7 +94,6 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
             gtsForSameImg = [
                 bbox for bbox in groundTruthsForClass if bbox[0] == detection[0]
             ]
-            # noTrueBboxesInThisImg = len(gtsForSameImg) # number of true bboxes in the considered img
 
             maxIoU = 0
             bestGtId = None
@@ -136,4 +134,3 @@ def meanAveragePrecission(predBboxes, gtBboxes, iouThreshold=0.5, numClasses=80)
         # calculate area under the precision-recall curve
         averagePrecissionForClass.append((torch.trapz(precisions, recalls)).clamp(0))
     return averagePrecissionForClass
-    # return float(sum(averagePrecissionForClass) / len(averagePrecissionForClass))

@@ -1,4 +1,4 @@
-DATA_DIRECTORY = "/mnt/d/1. Studia/4. Semestr/Projekt Indywidualny/data/"
+DATA_DIRECTORY = "data/"
 COCO_DIRECTORY = "cocoOriginalData/"
 COCO_TRAIN_IMG_DIR = DATA_DIRECTORY + COCO_DIRECTORY + "train/images/"
 COCO_TRAIN_ANNOT_DIR = DATA_DIRECTORY + COCO_DIRECTORY + "train/annotations/"
